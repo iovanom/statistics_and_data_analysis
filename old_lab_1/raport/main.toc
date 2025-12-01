@@ -1,0 +1,17 @@
+\contentsline {section}{\numberline {I}Observația statistică}{1}{section.0.1}%
+\contentsline {subsection}{\numberline {I.1}Scopul observației statistice}{1}{subsection.0.1.1}%
+\contentsline {subsection}{\numberline {I.2}Populația statistică}{1}{subsection.0.1.2}%
+\contentsline {subsection}{\numberline {I.3}Metoda de observație}{1}{subsection.0.1.3}%
+\contentsline {subsection}{\numberline {I.4}Eșantionul observat}{1}{subsection.0.1.4}%
+\contentsline {subsection}{\numberline {I.5}Caracteristici statistice}{1}{subsection.0.1.5}%
+\contentsline {subsection}{\numberline {I.6}Scale de măsurare}{1}{subsection.0.1.6}%
+\contentsline {subsection}{\numberline {I.7}Sursa datelor}{2}{subsection.0.1.7}%
+\contentsline {section}{\numberline {II}Sistematizarea și prezentarea datelor observate}{3}{section.0.2}%
+\contentsline {subsection}{\numberline {II.1}Tabel descriptiv}{3}{subsection.0.2.1}%
+\contentsline {subsection}{\numberline {II.2}Clasificarea unităților observate și ponderea pe grupe}{4}{subsection.0.2.2}%
+\contentsline {subsubsection}{Dupa frecventa consumului (cani/zi grupate)}{4}{section*.3}%
+\contentsline {subsection}{\numberline {II.3}Gruparea după caracteristici cantitative (intervale discrete/continue)}{4}{subsection.0.2.3}%
+\contentsline {subsection}{\numberline {II.4}Prezentare grafică a distribuțiilor și a structurii}{5}{subsection.0.2.4}%
+\contentsline {section}{\numberline {III}Analiza statistică inferențială folosind indicatori de tendință centrală}{5}{section.0.3}%
+\contentsline {subsection}{\numberline {III.1}Indicatori de medie (pentru fiecare distribuție/grupare)}{5}{subsection.0.3.1}%
+\contentsline {chapter}{Anexe}{6}{section*.8}%

@@ -1,0 +1,20 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} Persoanele mai tinere tind să consume mai mult latte}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}
+    \PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Varsta}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{30}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{0.4}\PYG{p}{)}\PYG{p}{,}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Tip\PYGZus{}Cafea\PYGZus{}Preferat}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Latte}\PYG{l+s+s2}{\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} Persoanele mai în varsta tind sa consume mai mult decaf}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}
+    \PYG{p}{(}\PYG{n}{df}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Varsta}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{55}\PYG{p}{)} \PYG{o}{\PYGZam{}} \PYG{p}{(}\PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{rand}\PYG{p}{(}\PYG{n}{n}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{l+m+mf}{0.3}\PYG{p}{)}\PYG{p}{,}
+    \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Tip\PYGZus{}Cafea\PYGZus{}Preferat}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{p}{]} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Decaf}\PYG{l+s+s2}{\PYGZdq{}}
+
+\PYG{c+c1}{\PYGZsh{} Urban tinde sa aiba buget mai mare}
+\PYG{n}{urban\PYGZus{}mask} \PYG{o}{=} \PYG{n}{df}\PYG{p}{[}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Tip\PYGZus{}Localitate}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Urban}\PYG{l+s+s2}{\PYGZdq{}}
+\PYG{n}{df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}\PYG{n}{urban\PYGZus{}mask}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Buget\PYGZus{}Luna\PYGZus{}MDL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}
+    \PYG{n}{df}\PYG{o}{.}\PYG{n}{loc}\PYG{p}{[}\PYG{n}{urban\PYGZus{}mask}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Buget\PYGZus{}Luna\PYGZus{}MDL}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{]} \PYG{o}{*} \PYG{n}{np}\PYG{o}{.}\PYG{n}{random}\PYG{o}{.}\PYG{n}{uniform}\PYG{p}{(}
+    \PYG{l+m+mf}{1.1}\PYG{p}{,} \PYG{l+m+mf}{1.3}\PYG{p}{,} \PYG{n+nb}{sum}\PYG{p}{(}\PYG{n}{urban\PYGZus{}mask}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{astype}\PYG{p}{(}\PYG{n+nb}{int}\PYG{p}{)}
+
+\end{MintedVerbatim}

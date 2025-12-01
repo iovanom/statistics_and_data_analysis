@@ -1,0 +1,446 @@
+\documentclass[12pt,a4paper]{report}
+
+% Limbă și diacritice
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Noto Serif}
+
+% Margini & font
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\linespread{1.1}
+
+% Hiperlinkuri
+\usepackage[hidelinks]{hyperref}
+
+% Tabele & figuri
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{booktabs}
+% \usepackage{siunitx}
+% \sisetup{output-decimal-marker={,}}
+\usepackage{subcaption}
+
+% Anexe
+\usepackage[toc,page]{appendix}
+\renewcommand{\appendixpagename}{Anexe}
+\renewcommand{\appendixtocname}{Anexe}
+
+% Matematică
+\usepackage{amsmath, amssymb, amsthm}
+
+% Enumerări
+\usepackage{enumitem}
+
+% (Opțiunea 2 - minted, comentată implicit; necesită -shell-escape)
+\usepackage{minted}
+%\setminted{fontsize=\small, breaklines=true, frame=none}
+\usemintedstyle{borland}
+
+% Numerotări: Section -> I., Subsection -> 1.1 etc.
+\renewcommand\thesection{\Roman{section}}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+% Informații titlu (modifică după nevoie)
+\newcommand{\Universitate}{UNIVERSITATEA DE STAT DIN MOLDOVA}
+\newcommand{\Facultate}{FACULTATEA DE MATEMATICA SI INFORMATICA}
+\newcommand{\Departament}{DEPARTAMENTUL INFORMATICĂ}
+\newcommand{\TitluProiect}{Preferințe de cafea și consum zilnic}
+\newcommand{\Disciplina}{Statistica pentru Știința Datelor}
+\newcommand{\Autor}{Ivan Majeru}
+\newcommand{\Titular}{Conf. univ. dr. Ludmila Novac}
+\newcommand{\An}{2025}
+
+\begin{document}
+
+% Pagina de titlu
+\begin{titlepage}
+  \centering
+  {\Large \Universitate\par}
+  {\large \Facultate\par}
+  {\large \Departament\par}
+  \vspace{2cm}
+  {\LARGE Cercetare statistică\par}
+  \vspace{0.5cm}
+  {\Large \TitluProiect\par}
+  \vspace{2.5cm}
+  \begin{flushleft}
+    \textbf{Autor:} \Autor\par
+    \textbf{Titular disciplină:} \Titular\par
+    \textbf{Disciplina:} \Disciplina\par
+  \end{flushleft}
+  \vfill
+  {\An\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+% I. OBSERVAȚIA STATISTICĂ
+\section{Observația statistică}
+
+\subsection{Scopul observației statistice}
+Scopul cercetării este de a identifica preferințele de cafea (tipuri preferate, loc de achiziție) și de a analiza consumul zilnic (număr de căni) în funcție de caracteristici socio-demografice.
+
+\subsection{Populația statistică}
+Populația vizată include persoane adulte (18+) din Republica Moldova, rezidente în mediul urban și rural.
+
+\subsection{Metoda de observație}
+Anchetă statistică prin chestionar online/offline. Eșantionare neprobabilistică (de confort) sau probabilistică (dacă este cazul).
+
+\subsection{Eșantionul observat}
+Eșantion de 100 de persoane (date sintetice). Vârsta medie: 46{,}2 ani; consum mediu zilnic: 2{,}75 căni; buget mediu lunar: 1209{,}60 MDL.
+
+\subsection{Caracteristici statistice}
+Exemplu:
+\begin{itemize}[leftmargin=1.2cm]
+  \item Vârstă (ani)
+  \item Sex (Masculin/Feminin)
+  \item Tip localitate (Urban/Rural)
+  \item Tip cafea preferat (Espresso, Latte, Cappuccino, Americano, etc.)
+  \item Număr căni/zi
+  \item Ora consum dominantă (Dimineața/Prânz/Seara)
+  \item Buget lunar pentru cafea (MDL)
+  \item Loc achiziție (Acasă-Boabe, Cafenea, Oficiu, etc.)
+\end{itemize}
+
+\subsection{Scale de măsurare}
+\begin{itemize}[leftmargin=1.2cm]
+  \item Vârstă, Număr căni/zi, Buget lunar: scară raport.
+  \item Sex, Tip localitate, Tip cafea, Loc achiziție: nominal.
+  \item Ora consum dominantă: ordinal (dacă o ordonezi), altfel nominal.
+\end{itemize}
+
+\subsection{Sursa datelor}
+Date primare sintetice generate pentru scop didactic (Jupyter/Python).
+
+\begin{minted}{python}
+import pandas as pd
+import numpy as np
+from datetime import datetime, timedelta
+
+# Set seed pentru reproducibilitate
+np.random.seed(42)
+# Numar de inregistrări
+n = 100
+
+# Generare date sintetice
+data = {"ID": range(1, n+1)}
+
+# Caracteristici demografice
+data["Varsta"] = np.random.randint(18, 70, n)
+data["Sex"] = np.random.choice(["Masculin", "Feminin"], n, p=[0.48, 0.52])
+data["Tip_Localitate"] = np.random.choice(["Urban", "Rural"], n, p=[0.65, 0.35])
+
+# Variabile principale
+data["Tip_Cafea_Preferat"] = np.random.choice(
+    ["Espresso", "Latte", "Americano", "Cappucino", "Decaf", "Alte"], 
+    n,  p=[0.25, 0.20, 0.28, 0.20, 0.05, 0.02]
+)
+data["Numar_Cani_Pe_Zi" = np.random.choice(
+    [1, 2, 3, 4, 5],  n,  p=[0.20, 0.35, 0.25, 0.15, 0.05]
+)
+data["Ora_Consum_Dominanta"] = np.random.choice(
+    ["Dimineata", "Pranz", "Seara"], 
+    n,  p=[0.65, 0.25, 0.10]
+)
+data["Buget_Luna_MDL"] = np.random.randint(200, 2000, n)
+data["Loc_Achizitie"] = np.random.choice(
+    ["Cafenea", "Supermarket", "Oficiu", "Distributie_Automata",
+        "Acasa", "Alte"],
+    n, p=[0.25, 0.20, 0.20, 0.20, 0.10, 0.05]
+)
+
+# Creare DataFrame
+df = pd.DataFrame(data)
+
+\end{minted}
+
+\newpage
+
+E nevoie de unele ajustari logice pentru corerenta.
+
+\begin{minted}{python}
+# Persoanele mai tinere tind să consume mai mult latte
+df.loc[
+    (df["Varsta"] < 30) & (np.random.rand(n) < 0.4),
+    "Tip_Cafea_Preferat"
+] = "Latte"
+
+# Persoanele mai în varsta tind sa consume mai mult decaf
+df.loc[
+    (df["Varsta"] > 55) & (np.random.rand(n) < 0.3),
+    "Tip_Cafea_Preferat"
+] = "Decaf"
+
+# Urban tinde sa aiba buget mai mare
+urban_mask = df["Tip_Localitate"] == "Urban"
+df.loc[urban_mask, "Buget_Luna_MDL"] = (
+    df.loc[urban_mask, "Buget_Luna_MDL"] * np.random.uniform(
+    1.1, 1.3, sum(urban_mask))).astype(int)
+
+\end{minted}
+
+% II. SISTEMATIZAREA ȘI PREZENTAREA DATELOR
+\section{Sistematizarea și prezentarea datelor observate}
+
+\subsection{Tabel descriptiv}
+Aici avem tabelul descriptiv cu 10 elemente din setul de date. Datele complete le puteti vedea in Anexa I.
+
+\begin{table}[H]
+\centering
+\caption{Primele 10 observații din setul de date}
+\label{tab:primele5}
+\begin{longtable}{rlllrlrl}
+\toprule
+Vârsta & Sex & Localitate & Tip Cafea & Cani/zi & Perioada & Buget (MDL) & Loc \\
+\midrule
+\endfirsthead
+\toprule
+Vârsta & Sex & Localitate & Tip Cafea & Cani/zi & Perioada & Buget (MDL) & Loc \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{Continued on next page} \\
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+18 & F & Urban & Latte & 5 & Dimineata & 796 & Supermarket \\
+42 & F & Rural & Americano & 2 & Dimineata & 497 & Oficiu \\
+60 & M & Rural & Decaf & 4 & Seara & 1151 & Oficiu \\
+57 & F & Urban & Cappucino & 3 & Dimineata & 276 & Supermarket \\
+59 & M & Rural & Latte & 3 & Pranz & 1307 & Supermarket \\
+42 & M & Urban & Cappucino & 3 & Seara & 2022 & Supermarket \\
+56 & F & Urban & Decaf & 2 & Dimineata & 2407 & Oficiu \\
+52 & M & Urban & Espresso & 2 & Dimineata & 2041 & Supermarket \\
+20 & M & Urban & Americano & 2 & Dimineata & 1768 & Distributie \\
+67 & M & Urban & Espresso & 3 & Pranz & 2025 & Distributie \\
+\end{longtable}
+
+\end{table}
+
+\subsection{Clasificarea unităților observate și ponderea pe grupe}
+Exemple de tabele frecvențe/ponderi:
+\begin{itemize}[leftmargin=1.2cm]
+  \item După frecvența consumului (cani/zi grupate)
+  \item După tipul de cafea preferat
+  \item După locul de achiziție
+  \item După sex / localitate
+\end{itemize}
+
+\subsubsection{Dupa frecventa consumului (cani/zi grupate)}
+
+\begin{table}[H]
+\centering
+\caption{Gruparea dupa frecventa consumului (cani/zi grupate)}
+\begin{tabular}{lrr}
+\toprule
+Nr Cani/Zi & Frecventa & Procent \% \\
+\midrule
+1 & 18 & 18.00 \\
+2 & 41 & 41.00 \\
+3 & 30 & 30.00 \\
+4 & 7 & 7.00 \\
+5 & 4 & 4.00 \\
+\bottomrule
+Total & 100 & 100.00 \\
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Frecventa consumului dupa sexe}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\caption{Structura după tipul de cafea preferat}
+\label{tab:tip_cafea}
+\begin{tabular}{@{}llllll@{}}
+\toprule
+Tip & Espresso & Latte & Cappuccino & Americano & Alte \\
+\midrule
+Frecvență &  &  &  &  &  \\
+Pondere (\%) &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Gruparea după caracteristici cantitative (intervale discrete/continue)}
+Definiți intervalele folosind reguli de tip Sturges: 
+$$
+k = 1 + 3.322 \cdot \log_{10}(n), \quad h = \frac{x_{\max} - x_{\min}}{k}.
+$$
+
+\begin{table}[H]
+\centering
+\caption{Gruparea după numărul de căni pe zi (intervale continue)}
+\label{tab:cani_intervale}
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Interval & [0,1) & [1,2) & [2,3) & [3,4) \\
+\midrule
+Frecvență &  &  &  &  \\
+Pondere (\%) &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Prezentare grafică a distribuțiilor și a structurii}
+Includeți diagrame (histograme, bar chart, pie chart) exportate din Jupyter.
+
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.7\textwidth]{figuri/hist_cani_pe_zi.png}
+%   \caption{Distribuția numărului de căni pe zi}
+%   \label{fig:hist_cani}
+% \end{figure}
+
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.65\textwidth]{figuri/bar_tip_cafea.png}
+%   \caption{Structura după tipul de cafea preferat}
+%   \label{fig:bar_tip_cafea}
+% \end{figure}
+
+% III. ANALIZA STATISTICĂ INFERENȚIALĂ
+\section{Analiza statistică inferențială folosind indicatori de tendință centrală}
+
+\subsection{Indicatori de medie (pentru fiecare distribuție/grupare)}
+Exemple (pentru Căni/zi):
+$$
+\bar{x} = \frac{1}{n}\sum_{i=1}^{n} x_i, \quad 
+\tilde{x}=\text{mediană}, \quad
+\text{media pătratică } = \sqrt{\frac{1}{n}\sum x_i^2}.
+$$
+\
+
+\begin{appendices}
+\appendix
+\section*{Anexa I. Setul complet de date}
+\begin{longtable}{rlllrlrl}
+\toprule
+Vârsta & Sex & Localitate & Tip Cafea & Cani/zi & Perioada & Buget (MDL) & Loc \\
+\midrule
+\endfirsthead
+\toprule
+Vârsta & Sex & Localitate & Tip Cafea & Cani/zi & Perioada & Buget (MDL) & Loc \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{Continued on next page} \\
+\midrule
+\endfoot
+\bottomrule
+\endlastfoot
+18 & F & Urban & Latte & 5 & Dimineata & 796 & Supermarket \\
+42 & F & Rural & Americano & 2 & Dimineata & 497 & Oficiu \\
+60 & M & Rural & Decaf & 4 & Seara & 1151 & Oficiu \\
+57 & F & Urban & Cappucino & 3 & Dimineata & 276 & Supermarket \\
+59 & M & Rural & Latte & 3 & Pranz & 1307 & Supermarket \\
+42 & M & Urban & Cappucino & 3 & Seara & 2022 & Supermarket \\
+56 & F & Urban & Decaf & 2 & Dimineata & 2407 & Oficiu \\
+52 & M & Urban & Espresso & 2 & Dimineata & 2041 & Supermarket \\
+20 & M & Urban & Americano & 2 & Dimineata & 1768 & Distributie \\
+67 & M & Urban & Espresso & 3 & Pranz & 2025 & Distributie \\
+54 & F & Rural & Americano & 1 & Pranz & 1908 & Cafenea \\
+61 & M & Urban & Americano & 2 & Pranz & 1746 & Oficiu \\
+61 & M & Rural & Espresso & 3 & Dimineata & 758 & Supermarket \\
+68 & M & Urban & Americano & 3 & Pranz & 1362 & Oficiu \\
+47 & M & Rural & Espresso & 3 & Seara & 340 & Distributie \\
+55 & M & Rural & Espresso & 3 & Dimineata & 1086 & Cafenea \\
+51 & M & Urban & Americano & 5 & Seara & 1678 & Oficiu \\
+29 & F & Rural & Latte & 2 & Pranz & 1500 & Cafenea \\
+36 & M & Urban & Americano & 2 & Pranz & 1143 & Cafenea \\
+54 & M & Rural & Latte & 2 & Dimineata & 1443 & Supermarket \\
+61 & M & Urban & Decaf & 2 & Dimineata & 1562 & Supermarket \\
+66 & M & Rural & Espresso & 4 & Dimineata & 720 & Alte \\
+34 & F & Urban & Americano & 2 & Dimineata & 265 & Supermarket \\
+27 & F & Urban & Latte & 3 & Dimineata & 1412 & Supermarket \\
+66 & M & Rural & Decaf & 2 & Pranz & 577 & Oficiu \\
+64 & M & Urban & Decaf & 3 & Seara & 2227 & Cafenea \\
+29 & M & Urban & Latte & 3 & Pranz & 2092 & Alte \\
+33 & F & Urban & Americano & 2 & Dimineata & 1037 & Oficiu \\
+41 & F & Urban & Cappucino & 2 & Dimineata & 962 & Distributie \\
+36 & F & Urban & Decaf & 2 & Dimineata & 440 & Cafenea \\
+25 & M & Urban & Latte & 1 & Pranz & 1050 & Supermarket \\
+48 & F & Urban & Americano & 2 & Pranz & 1434 & Supermarket \\
+38 & M & Urban & Cappucino & 1 & Seara & 1697 & Distributie \\
+34 & M & Rural & Espresso & 2 & Dimineata & 1058 & Cafenea \\
+40 & M & Urban & Espresso & 3 & Seara & 1668 & Supermarket \\
+54 & M & Urban & Americano & 3 & Pranz & 2047 & Alte \\
+33 & F & Urban & Espresso & 3 & Dimineata & 275 & Oficiu \\
+23 & F & Urban & Americano & 1 & Pranz & 978 & Supermarket \\
+25 & M & Rural & Espresso & 3 & Dimineata & 730 & Cafenea \\
+42 & F & Urban & Latte & 2 & Dimineata & 2085 & Alte \\
+35 & F & Urban & Cappucino & 2 & Dimineata & 1510 & Cafenea \\
+42 & F & Rural & Decaf & 4 & Dimineata & 1390 & Distributie \\
+29 & F & Rural & Espresso & 1 & Dimineata & 1425 & Distributie \\
+32 & F & Urban & Americano & 3 & Dimineata & 1246 & Cafenea \\
+43 & F & Rural & Cappucino & 3 & Dimineata & 345 & Distributie \\
+58 & F & Rural & Espresso & 2 & Dimineata & 1114 & Cafenea \\
+62 & M & Urban & Decaf & 2 & Dimineata & 2420 & Supermarket \\
+43 & M & Rural & Latte & 2 & Dimineata & 1192 & Distributie \\
+64 & F & Rural & Latte & 4 & Dimineata & 1662 & Acasa \\
+49 & M & Urban & Decaf & 2 & Dimineata & 530 & Oficiu \\
+27 & F & Urban & Espresso & 2 & Dimineata & 970 & Oficiu \\
+33 & M & Urban & Americano & 2 & Dimineata & 993 & Cafenea \\
+24 & M & Rural & Latte & 3 & Dimineata & 1784 & Cafenea \\
+34 & M & Rural & Espresso & 1 & Dimineata & 682 & Cafenea \\
+40 & M & Rural & Americano & 2 & Pranz & 1331 & Cafenea \\
+43 & F & Urban & Decaf & 3 & Dimineata & 1659 & Supermarket \\
+38 & F & Urban & Espresso & 4 & Dimineata & 1081 & Supermarket \\
+39 & F & Urban & Cappucino & 2 & Seara & 921 & Supermarket \\
+24 & F & Urban & Latte & 2 & Pranz & 1029 & Cafenea \\
+31 & M & Urban & Americano & 2 & Seara & 1050 & Oficiu \\
+32 & F & Rural & Americano & 3 & Pranz & 1655 & Distributie \\
+24 & F & Urban & Latte & 2 & Dimineata & 1225 & Supermarket \\
+26 & F & Rural & Decaf & 2 & Dimineata & 1878 & Acasa \\
+68 & M & Urban & Decaf & 3 & Dimineata & 682 & Acasa \\
+65 & F & Urban & Decaf & 3 & Dimineata & 1382 & Cafenea \\
+25 & F & Urban & Latte & 2 & Dimineata & 2059 & Distributie \\
+67 & F & Urban & Americano & 4 & Dimineata & 1562 & Oficiu \\
+40 & F & Rural & Americano & 3 & Dimineata & 1746 & Oficiu \\
+46 & M & Urban & Americano & 2 & Pranz & 1051 & Supermarket \\
+35 & F & Rural & Americano & 1 & Pranz & 1168 & Oficiu \\
+48 & F & Urban & Americano & 5 & Dimineata & 985 & Supermarket \\
+47 & M & Rural & Cappucino & 1 & Pranz & 1300 & Oficiu \\
+69 & F & Urban & Decaf & 2 & Dimineata & 917 & Oficiu \\
+56 & F & Rural & Espresso & 1 & Pranz & 640 & Distributie \\
+52 & M & Rural & Espresso & 3 & Dimineata & 1477 & Oficiu \\
+35 & M & Urban & Latte & 2 & Seara & 1279 & Distributie \\
+59 & M & Urban & Americano & 1 & Pranz & 1225 & Cafenea \\
+56 & M & Rural & Americano & 1 & Dimineata & 1543 & Cafenea \\
+34 & M & Rural & Americano & 1 & Dimineata & 462 & Distributie \\
+31 & F & Urban & Americano & 3 & Dimineata & 2191 & Supermarket \\
+48 & M & Rural & Americano & 3 & Dimineata & 1881 & Cafenea \\
+41 & M & Rural & Latte & 2 & Dimineata & 1777 & Cafenea \\
+52 & F & Rural & Americano & 2 & Dimineata & 1597 & Cafenea \\
+61 & F & Rural & Decaf & 3 & Dimineata & 836 & Alte \\
+62 & M & Rural & Cappucino & 1 & Pranz & 1390 & Oficiu \\
+51 & M & Urban & Latte & 2 & Seara & 2321 & Acasa \\
+20 & M & Urban & Espresso & 5 & Dimineata & 739 & Oficiu \\
+54 & F & Urban & Espresso & 3 & Dimineata & 1494 & Oficiu \\
+60 & M & Rural & Espresso & 2 & Dimineata & 1503 & Supermarket \\
+57 & F & Rural & Americano & 2 & Pranz & 899 & Oficiu \\
+43 & F & Urban & Latte & 2 & Dimineata & 574 & Cafenea \\
+40 & M & Rural & Americano & 2 & Seara & 1754 & Acasa \\
+61 & F & Rural & Decaf & 1 & Pranz & 1803 & Distributie \\
+56 & F & Urban & Decaf & 1 & Dimineata & 1692 & Supermarket \\
+32 & M & Urban & Latte & 1 & Dimineata & 1474 & Alte \\
+66 & F & Urban & Espresso & 4 & Pranz & 948 & Distributie \\
+21 & F & Urban & Latte & 3 & Pranz & 610 & Distributie \\
+46 & F & Urban & Espresso & 1 & Dimineata & 1732 & Cafenea \\
+39 & F & Urban & Cappucino & 1 & Dimineata & 951 & Oficiu \\
+42 & F & Urban & Espresso & 3 & Pranz & 1367 & Oficiu \\
+\end{longtable}
+
+\end{appendices}
+
+\end{document}
